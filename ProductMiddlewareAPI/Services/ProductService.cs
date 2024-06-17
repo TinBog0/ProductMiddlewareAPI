@@ -13,6 +13,11 @@ namespace ProductMiddlewareAPI.Services
             _productRepository = productRepository;
         }
 
+        public Task<IEnumerable<Product>> FilterProductAsync(string category, decimal? minPrice, decimal? macPrice)
+        {
+            return _productRepository.FilterProductAsync(category, minPrice, macPrice);
+        }
+
         public Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             return _productRepository.GetAllProductsAsync();

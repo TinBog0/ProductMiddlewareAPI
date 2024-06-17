@@ -7,5 +7,7 @@ namespace ProductMiddlewareAPI.Interfaces
         Task<IEnumerable<Product>> GetAllProductsAsync();
 
         Task<Product> GetProductByIdAsync(int id);
+
+        Task<IEnumerable<Product>> FilterProductAsync(string category, decimal? minPrice, decimal? macPrice);
     }
 }

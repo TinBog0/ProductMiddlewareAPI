@@ -21,6 +21,36 @@ namespace ProductMiddlewareDataAcces.Repositories
             _productApiUrl = configuration["ApiSettings:ProductApiUrl"];
         }
 
+        public async Task<IEnumerable<Product>> FilterProductAsync(string category, decimal? minPrice, decimal? maxPrice)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"{_productApiUrl}/category/{category}");
+                response.EnsureSuccessStatusCode();
+
+                var content = await response.Content.ReadAsStringAsync();
+                var productResponse = JsonConvert.DeserializeObject<ApiProductResponse>(content);
+
+                var filteredProducts = productResponse.Products.AsQueryable();
+
+                if (minPrice.HasValue)
+                {
+                    filteredProducts = filteredProducts.Where(p => p.Price >= minPrice.Value);
+                }
+
+                if (maxPrice.HasValue)
+                {
+                    filteredProducts = filteredProducts.Where(p => p.Price <= maxPrice.Value);  
+                }
+
+                return filteredProducts.ToList();
+            }
+            catch (HttpRequestException ex )
+            {
+                throw new ApplicationException($"An error occurred while filtering products in category {category}.", ex);
+            }
+        }
+
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             try
@@ -33,7 +63,7 @@ namespace ProductMiddlewareDataAcces.Repositories
 
                 return productsResponse.Products;
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 throw new ApplicationException("An error occurred while retrieving products.", ex);
             }
@@ -53,7 +83,7 @@ namespace ProductMiddlewareDataAcces.Repositories
 
                 return product;
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 throw new ApplicationException($"An error occurred while retrieving the product with Id {id}.", ex);
             }

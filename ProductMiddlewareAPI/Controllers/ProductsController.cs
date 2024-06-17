@@ -47,5 +47,24 @@ namespace ProductMiddlewareAPI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts([FromQuery] string category, [FromQuery] decimal? minPrice, [FromQuery] decimal? maxPrice)
+        {
+            if (string.IsNullOrEmpty(category))
+            {
+                return BadRequest("Category is required");
+            }
+
+            try
+            {
+                var products = await _productService.FilterProductAsync(category, minPrice, maxPrice);
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
