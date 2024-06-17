@@ -1,0 +1,49 @@
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+ARM/
+ARM64/
+
+# Logs
+*.log
+
+# Compiled source
+*.dll
+*.exe
+*.so
+*.dylib
+*.pyc
+*.pyo
+*.pdb
+*.ipdb
+*.pidb
+
+# Roslyn generated files
+Generated_*.cs
+
+# Visual Studio Code
+.vscode/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows shortcuts
+*.lnk
