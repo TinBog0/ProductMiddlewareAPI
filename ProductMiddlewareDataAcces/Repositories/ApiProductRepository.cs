@@ -21,6 +21,43 @@ namespace ProductMiddlewareDataAcces.Repositories
             _productApiUrl = configuration["ApiSettings:ProductApiUrl"];
         }
 
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"{_productApiUrl}");
+                response.EnsureSuccessStatusCode();
+
+                var content = await response.Content.ReadAsStringAsync();
+                var productsResponse = JsonConvert.DeserializeObject<ApiProductResponse>(content);
+
+                return productsResponse.Products;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("An error occurred while retrieving products.", ex);
+            }
+        }
+
+        public async Task<Product> GetProductByIdAsync(int id)
+        {
+
+            try
+            {
+                var response = await _httpClient.GetAsync($"{_productApiUrl}/{id}");
+                response.EnsureSuccessStatusCode();
+
+                var content = await response.Content.ReadAsStringAsync();
+                var product = JsonConvert.DeserializeObject<Product>(content);
+
+                return product;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException($"An error occurred while retrieving the product with Id {id}.", ex);
+            }
+        }
+
         public async Task<IEnumerable<Product>> FilterProductAsync(string category, decimal? minPrice, decimal? maxPrice)
         {
             try
@@ -51,41 +88,21 @@ namespace ProductMiddlewareDataAcces.Repositories
             }
         }
 
-        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        public async Task<IEnumerable<Product>> SearchProductsAsync(string query)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{_productApiUrl}");
+                var response = await _httpClient.GetAsync($"{_productApiUrl}/search?q={query}");
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content.ReadAsStringAsync();
-                var productsResponse = JsonConvert.DeserializeObject<ApiProductResponse>(content);
+                var productResponse = JsonConvert.DeserializeObject<ApiProductResponse>(content);
 
-                return productsResponse.Products;
+                return productResponse.Products;
             }
             catch (HttpRequestException ex)
             {
-                throw new ApplicationException("An error occurred while retrieving products.", ex);
-            }
-        }
-
-
-        public async Task<Product> GetProductByIdAsync(int id)
-        {
-
-            try
-            {
-                var response = await _httpClient.GetAsync($"{_productApiUrl}/{id}");
-                response.EnsureSuccessStatusCode();
-
-                var content = await response.Content.ReadAsStringAsync();
-                var product = JsonConvert.DeserializeObject<Product>(content);
-
-                return product;
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new ApplicationException($"An error occurred while retrieving the product with Id {id}.", ex);
+                throw new ApplicationException($"An error occurred while searching for products with query {query}.", ex);
             }
         }
     }

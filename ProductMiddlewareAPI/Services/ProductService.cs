@@ -27,5 +27,10 @@ namespace ProductMiddlewareAPI.Services
         {
             return _productRepository.GetProductByIdAsync(id);
         }
+
+        public Task<IEnumerable<Product>> SearchProductAsync(string query)
+        {
+            return _productRepository.SearchProductsAsync(query);
+        }
     }
 }

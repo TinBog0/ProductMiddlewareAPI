@@ -31,7 +31,7 @@ namespace ProductMiddlewareAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct([FromRoute]int id)
+        public async Task<ActionResult<Product>> GetProductById([FromRoute]int id)
         {
             try
             {
@@ -59,6 +59,20 @@ namespace ProductMiddlewareAPI.Controllers
             try
             {
                 var products = await _productService.FilterProductAsync(category, minPrice, maxPrice);
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Product>>> Search(string query)
+        {
+            try
+            {
+                var products = await _productService.SearchProductAsync(query);
                 return Ok(products);
             }
             catch (Exception ex)

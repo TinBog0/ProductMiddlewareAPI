@@ -9,5 +9,7 @@ namespace ProductMiddlewareDataAcces.Interfaces
         Task<Product> GetProductByIdAsync(int id);
 
         Task<IEnumerable<Product>> FilterProductAsync(string category, decimal? minPrice, decimal? maxPrice);
+
+        Task<IEnumerable<Product>> SearchProductsAsync(string query);
     }
 }
