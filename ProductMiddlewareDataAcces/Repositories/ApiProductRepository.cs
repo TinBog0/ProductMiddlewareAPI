@@ -35,22 +35,28 @@ namespace ProductMiddlewareDataAcces.Repositories
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("An error occurred whileretrieving products.", ex);
+                throw new ApplicationException("An error occurred while retrieving products.", ex);
             }
         }
 
-        //public async Task<Product> GetProductByIdAsync(int id)
-        //{
-        //    try
-        //    {
-        //        var response = await _httpClient.GetAsync()
 
-        //    }
-        //    catch (Exception)
-        //    {
+        public async Task<Product> GetProductByIdAsync(int id)
+        {
 
-        //        throw;
-        //    }
-        //}
+            try
+            {
+                var response = await _httpClient.GetAsync($"{_productApiUrl}/{id}");
+                response.EnsureSuccessStatusCode();
+
+                var content = await response.Content.ReadAsStringAsync();
+                var product = JsonConvert.DeserializeObject<Product>(content);
+
+                return product;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"An error occurred while retrieving the product with Id {id}.", ex);
+            }
+        }
     }
 }

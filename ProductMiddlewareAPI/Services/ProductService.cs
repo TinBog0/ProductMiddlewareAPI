@@ -17,5 +17,10 @@ namespace ProductMiddlewareAPI.Services
         {
             return _productRepository.GetAllProductsAsync();
         }
+
+        public Task<Product> GetProductByIdAsync(int id)
+        {
+            return _productRepository.GetProductByIdAsync(id);
+        }
     }
 }
