@@ -1,15 +1,16 @@
-﻿using ProductMiddlewareDataAcces.Models;
+﻿using ProductMiddlewareAPI.ViewModels;
+using ProductMiddlewareDataAcces.Models;
 
 namespace ProductMiddlewareAPI.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<Product>> GetAllProductsAsync();
+        Task<IEnumerable<ProductVM>> GetAllProductsAsync();
 
-        Task<Product> GetProductByIdAsync(int id);
+        Task<ProductVM> GetProductByIdAsync(int id);
 
-        Task<IEnumerable<Product>> FilterProductAsync(string category, decimal? minPrice, decimal? macPrice);
+        Task<IEnumerable<ProductVM>> FilterProductAsync(string category, decimal? minPrice, decimal? macPrice);
 
-        Task<IEnumerable<Product>> SearchProductAsync(string query);
+        Task<IEnumerable<ProductVM>> SearchProductAsync(string query);
     }
 }

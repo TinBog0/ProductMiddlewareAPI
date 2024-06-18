@@ -31,7 +31,7 @@ namespace ProductMiddlewareAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProductById([FromRoute]int id)
+        public async Task<ActionResult<Product>> GetProduct([FromRoute]int id)
         {
             try
             {
