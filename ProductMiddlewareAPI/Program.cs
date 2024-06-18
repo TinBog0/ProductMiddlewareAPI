@@ -17,6 +17,12 @@ builder.Services.AddScoped<IProductRepository, ApiProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddAutoMapper(typeof(ProductProfile));
 
+builder.Services.AddLogging(config =>
+{
+    config.AddConsole();
+    config.AddDebug();
+});
+
 
 var app = builder.Build();
 

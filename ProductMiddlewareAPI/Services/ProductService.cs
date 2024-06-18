@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.Memory;
 using ProductMiddlewareAPI.Interfaces;
 using ProductMiddlewareAPI.ViewModels;
 using ProductMiddlewareDataAcces.Interfaces;
-using ProductMiddlewareDataAcces.Models;
 
 namespace ProductMiddlewareAPI.Services
 {
@@ -22,7 +21,8 @@ namespace ProductMiddlewareAPI.Services
         }
 
         public async Task<IEnumerable<ProductVM>> GetAllProductsAsync()
-        {
+        {        
+
             if (!_memoryCache.TryGetValue(ProductsCachKey, out IEnumerable<ProductVM> products))
             {
                 var productData = await _productRepository.GetAllProductsAsync();
@@ -79,7 +79,7 @@ namespace ProductMiddlewareAPI.Services
             if (!_memoryCache.TryGetValue(cacheKey, out IEnumerable<ProductVM> products))
             {
                 var productsData = await _productRepository.SearchProductsAsync(query);
-                products = _mapper.Map<IEnumerable<ProductVM>>(products);
+                products = _mapper.Map<IEnumerable<ProductVM>>(productsData);
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromMinutes(5));

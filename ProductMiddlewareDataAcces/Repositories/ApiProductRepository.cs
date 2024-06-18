@@ -14,7 +14,6 @@ namespace ProductMiddlewareDataAcces.Repositories
     {
         private readonly HttpClient _httpClient;
         private readonly string _productApiUrl;
-
         public ApiProductRepository(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
@@ -41,7 +40,6 @@ namespace ProductMiddlewareDataAcces.Repositories
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-
             try
             {
                 var response = await _httpClient.GetAsync($"{_productApiUrl}/{id}");
