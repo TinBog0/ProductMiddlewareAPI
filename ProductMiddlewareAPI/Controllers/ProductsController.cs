@@ -18,6 +18,15 @@ namespace ProductMiddlewareAPI.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Retrieves all products.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/products
+        ///
+        /// </remarks>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
@@ -38,6 +47,15 @@ namespace ProductMiddlewareAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a specific product by unique id.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/products/{id}
+        ///
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct([FromRoute]int id)
         {
@@ -60,6 +78,16 @@ namespace ProductMiddlewareAPI.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Filters products by category and price range.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/products/filter?category=furniture?minPrice=100?maxPrice=1000
+        ///
+        /// </remarks>
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<Product>>> FilterProducts([FromQuery] string category, [FromQuery] decimal? minPrice, [FromQuery] decimal? maxPrice)
         {
@@ -84,6 +112,16 @@ namespace ProductMiddlewareAPI.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Searches products by name.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/products/search?query=laptop
+        ///
+        /// </remarks>
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<Product>>> Search(string query)
         {
